@@ -1,0 +1,24 @@
+symfony new --webapp voisin
+
+symfony console make:user
+
+symfony console make:entity (Post)
+symfony console make:entity (Like)
+symfony console make:entity (Comment)
+symfony console make:entity (FriendRequest)
+
+
+symfony console make:registration-form
+symfony console make:security:form-login
+(cree SecurityController et RegistrationController)
+
+symfony console make:controller (App)
+symfony console make:controller (Comment)
+symfony console make:controller (Like)
+symfony console make:controller (Post)
+
+symfony console doctrine:database:create
+
+symfony console make:migration
+
+symfony console doctrine:migrations:migrate
