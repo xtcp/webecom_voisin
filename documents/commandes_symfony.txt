@@ -22,3 +22,6 @@ symfony console doctrine:database:create
 symfony console make:migration
 
 symfony console doctrine:migrations:migrate
+
+symfony console make:entity (User -> ajoute de image, bio et online)
+symfony console make:entity (User -> ajoute de datetime pour la date de creation)

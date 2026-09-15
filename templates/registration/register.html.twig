@@ -1,19 +1,32 @@
+{#
+    Template: registration/register.html.twig
+    Extends: base_html.twig
+
+    Template pour formulaire de registre d'utilisateur
+
+    Role:
+        Afficher le formulaire de registre de compte d'utilisateur
+
+    Parameters:
+        registrationForm - Le formulaire de registre
+
+#}
 {% extends 'base.html.twig' %}
-
-{% block title %}Register{% endblock %}
-
+{% block title %}Créer un compte – Voisin{% endblock %}
 {% block body %}
-    <h1>Register</h1>
+<section class="auth-form">
+    <h1>Créer un compte</h1>
 
-    {{ form_errors(registrationForm) }}
-
-    {{ form_start(registrationForm) }}
+    {{ form_start(registrationForm, {attr: {enctype: 'multipart/form-data'}}) }}
         {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.image) }}
+        {{ form_row(registrationForm.password) }}
         {{ form_row(registrationForm.agreeTerms) }}
-
-        <button type="submit" class="btn">Register</button>
+        
+        <button class="btn btn-primary" type="submit">Créer mon compte</button>
     {{ form_end(registrationForm) }}
+
+    <p>Déjà un compte ? <a href="{{ path('app_login') }}">Se connecter</a></p>
+</section>
 {% endblock %}

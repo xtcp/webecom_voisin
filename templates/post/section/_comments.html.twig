@@ -1,0 +1,37 @@
+{#
+    Fragment: post/section/_comments.html.twig
+    
+    Fragment de section pour la section de commentaires dans la page de visualisation d'une publication
+
+    Role:
+        Afficher la section hero
+
+    Parameters:
+        post.comments - Les commentaires du post
+        commentForm - Le formulaire pour ajouter un commentaire
+
+#}
+<section class="post-comments-full">
+    <h2>Commentaires ({{ post.comments|length }})</h2>
+
+    {{ form_start(commentForm, {'action': path('app_comment_new', {id: post.id}), 'attr': {'class': 'comment-form'}}) }}
+        {{ form_widget(commentForm.text) }}
+        <button type="submit">Envoyer</button>
+    {{ form_end(commentForm) }}
+
+    <div class="post-comments">
+        {% for comment in post.comments %}
+            <div class="comment">
+                <span><strong>{{ comment.userId.username }}</strong> {{ comment.text }}</span>
+                {% if comment.userId.id == app.user.id or post.userId.id == app.user.id %}
+                    <form action="{{ path('app_comment_delete', {id: comment.id}) }}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-comment-' ~ comment.id) }}">
+                        <button class="link-button" type="submit">✕</button>
+                    </form>
+                {% endif %}
+            </div>
+        {% else %}
+            <p class="muted">Aucun commentaire pour le moment.</p>
+        {% endfor %}
+    </div>
+</section>

@@ -1,0 +1,134 @@
+# Examen 2026 - Framework Back End : Voisin.
+
+## Cahier des charges
+
+Vous intervenez en tant que développeur web au sein d'une startup souhaitant lancer **Voisin.**, un nouveau réseau social centré sur l'authenticité et les liens humains. Votre mission est de développer un prototype fonctionnel de la plateforme permettant aux utilisateurs de créer un compte, publier du contenu et tisser des liens avec d'autres membres.
+
+Le projet devra être réalisé avec le framework **Symfony** en respectant les bonnes pratiques de développement et une architecture MVC claire.
+
+L'application se compose de deux espaces distincts :
+
+- une **partie publique**, accessible à tous les visiteurs sans authentification ;
+- une **partie privée**, réservée aux membres authentifiés.
+
+<aside>
+💡
+
+Les maquettes fournies vous donne un aperçu du parcours utilisateur,  le css et la mise en page ne sont pas prioritaires sur l’exercice !
+
+</aside>
+
+## Fonctionnalités attendues
+
+### 1. Page d'accueil publique
+
+La page d'accueil est accessible à tous les visiteurs. Elle doit présenter :
+
+- une accroche présentant le réseau et ses valeurs ;
+- un aperçu des publications publiques les plus récentes ;
+- deux appels à l'action bien visibles : **Se connecter** et **Créer un compte**.
+
+### 2. Authentification
+
+Un visiteur doit pouvoir :
+
+- **créer un compte** en renseignant au minimum un pseudonyme, une adresse e-mail, un mot de passe et une photo de profil ;
+- **se connecter** avec ses identifiants ;
+- **se déconnecter** depuis n'importe quelle page.
+
+### 3. Publications
+
+Un membre connecté peut :
+
+- **créer une publication** composée d'un texte et/ou d'une image, en choisissant sa visibilité : **Publique** ou **Amis uniquement** ;
+- **modifier** l'une de ses publications ;
+- **supprimer** l'une de ses publications.
+
+Un membre ne peut modifier ou supprimer que ses propres publications.
+
+### 4. Fil d'actualité
+
+Un membre connecté dispose d'un fil d'actualité affichant :
+
+- les publications publiques de tous les membres ;
+- les publications privées (visibilité "Amis uniquement") des membres dont il est ami.
+
+Les publications sont triées **de la plus récente à la plus ancienne**.
+
+Le fil d'actualité propose un **filtre d'affichage** permettant de choisir entre :
+
+- Toutes les publications visibles
+- Publiques uniquement
+- Amis uniquement
+
+### 5. Profil utilisateur
+
+Chaque membre dispose d'une page de profil accessible depuis l'application, affichant :
+
+- son pseudonyme et sa photo de profil ;
+- sa courte biographie ;
+- sa date d'inscription ;
+- ses publications visibles (publiques toujours, privées uniquement si le visiteur est dans sa liste d'amis).
+- sa liste d’amis
+
+Depuis cette page, un membre connecté peut envoyer une demande d'amitié à cet utilisateur.
+
+### 6. Relations d'amitié
+
+Un membre connecté peut :
+
+- **envoyer une demande d'amitié** à un autre membre depuis son profil ;
+- **consulter les demandes reçues** et choisir de les accepter ou de les refuser ;
+- **consulter la liste de ses amis** et voir lesquels sont actuellement en ligne.
+
+Une relation d'amitié n'est créée qu'après acceptation de la demande. Elle est symétrique : si A est ami avec B, alors B est ami avec A.
+
+## 🔥Bonus : pour aller plus loin
+
+Vous pouvez rajouter si vous avez le temps la gestion des likes et commentaires aux publications.  Ceci est facultatif .
+
+## Ressources fournies
+
+**Lien vers les maquettes** : https://www.figma.com/design/aUg6WaA8dgIPxk6L4C73on/Voisin.?t=0q4jgNOJGYdfK8pU-1
+
+Les maquettes haute fidélité des écrans principaux vous sont fournies en annexe :
+
+- Page d'accueil publique
+- Fil d'actualité (membre connecté)
+- Page profil utilisateur
+- Gestion des demandes d'amitié
+
+Ces maquettes constituent une **base de référence sur parcours utilisateur**, non un gabarit imposé au pixel près. Vous êtes libres d'adapter la mise en page, pour rappel **le CSS n’est pas une priorité sur cet exercice.** 
+
+### Ressources externes :
+
+**librairie de pictos :**  
+
+Symfony UX Icons - SVG icons made easy
+
+## Consignes :
+
+- A partir des informations fournies ci dessus vous réaliserez l’application en utilisant Symfony 7
+- Votre code sera clair et respectueux de l’architecture et de la philosophie du framework , commenté, les erreurs et dysfonctionnements levés ( ou à défaut explicables)
+- Vous reproduirez le parcours utilisateur décrit par le sujet et les maquettes, mais l’effort n’est pas a mettre sur le CSS et la mise en page, vous présenterez un travail propre et correct, ne perdez pas de temps sur les détails graphiques ou le responsive.
+
+<aside>
+⚠️
+
+Vous ferez des commits réguliers de votre travail sur GitHub en prenant bien soin de ne pas pousser les dossiers “vendor” et “node_modules”. 
+
+Le lien vers votre repository sera fourni au jury pour qu’il puisse visualiser le code source)
+
+</aside>
+
+## Rendu et Présentation au Jury
+
+Pour tout le monde : 
+
+- Vous devrez fournir au jury le **lien de votre repository github** contenant le code source de votre application (sans le dossier vendor) ainsi que un **export au format sql de votre base de donnée**
+
+Pour les présentations:
+
+- **A distance** : vous présenterez au jury le code que vous avez produit en local
+- **Sur place:** vous devrez en amont télécharger votre projet sur la machine sur laquelle vous serez évalués, importer votre base de donnée dans phpmyadmin local et installer les dépendances de votre projet (composer install )
+- **Documents** : vous présenterez les documents qui vous ont servis pour la phase de conceptualisation (modèles de données, schémas… )

@@ -1,0 +1,36 @@
+{#
+    Fragment: app/section/_public_posts.html.twig
+    
+    Fragment de section pour la section des publications publiques de la page d'accueil
+
+    Role:
+        Afficher la section des publications publiques
+
+    Parameters:
+        latestPublicPosts - Dérniéres publication publiques
+#}
+<section class="public-posts">
+    <h2>Dernières publications publiques</h2>
+    <div class="post-grid">
+        {% for post in latestPublicPosts %}
+            <article class="post-card">
+                <header>
+                    <div class="post-author">
+                        <img class="avatar" src="{{ post.userId.image ? asset('images/user/' ~ post.userId.image) : asset('images/default-avatar.png') }}" alt="">
+                        <div class="post-meta">
+                            <strong>{{ post.userId.username }}</strong>
+                            <time>{{ post.datetimeCreation|date('d/m/Y \\à H\\hi') }}</time>
+                        </div>
+                    </div>
+                    <span class="badge">Public</span>
+                </header>
+                {% if post.image %}
+                    <img class="post-image" src="{{ asset('images/post/' ~ post.image) }}" alt="">
+                {% endif %}
+                <p class="post-text">{{ post.text }}</p>
+            </article>
+        {% else %}
+            <p>Aucune publication publique pour le moment.</p>
+        {% endfor %}
+    </div>
+</section>

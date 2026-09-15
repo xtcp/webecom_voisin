@@ -1,0 +1,77 @@
+
+Développer un prototype fonctionnel de la plateforme permettant aux utilisateurs de créer un compte, publier du contenu et tisser des liens avec d'autres membres.
+
+En framework Symfony 7 en respectant les bonnes pratiques de développement et une architecture MVC claire.
+Code clair et respectueux de l’architecture et de la philosophie du framework , commenté, les erreurs et dysfonctionnements levés ( ou à défaut explicables)
+Reproduire le parcours utilisateur décrit par le sujet et les maquettes, vous présenterez un travail propre et correct.
+Commits réguliers de votre travail sur GitHub en prenant bien soin de ne pas pousser les dossiers “vendor” et “node_modules”. 
+Fournir  export au format sql de la base de données
+
+Deux espaces :
+
+Partie publique: accessible à tous les visiteurs sans authentification ;
+Partie privée: réservée aux membres authentifiés.
+
+Page d'accueil:
+- une accroche présentant le réseau et ses valeurs (hero)
+- un aperçu des publications publiques les plus récentes 
+- deux appels à l'action bien visibles : **Se connecter** et **Créer un compte**.
+
+
+Authentification:
+
+Un visiteur doit pouvoir :
+- **créer un compte** en renseignant au minimum un pseudonyme, une adresse e-mail, un mot de passe et une photo de profil ;
+- **se connecter** avec ses identifiants ;
+- **se déconnecter** depuis n'importe quelle page.
+
+Publications
+
+Un membre connecté peut :
+
+- **créer une publication** composée d'un texte et/ou d'une image, en choisissant sa visibilité : **Publique** ou **Amis uniquement** ;
+- **modifier** l'une de ses publications ;
+- **supprimer** l'une de ses publications.
+
+Un membre ne peut modifier ou supprimer que ses propres publications.
+
+Fil d'actualité
+
+Un membre connecté dispose d'un fil d'actualité affichant :
+
+- les publications publiques de tous les membres ;
+- les publications privées (visibilité "Amis uniquement") des membres dont il est ami.
+
+Les publications sont triées **de la plus récente à la plus ancienne**.
+
+Le fil d'actualité propose un **filtre d'affichage** permettant de choisir entre :
+
+- Toutes les publications visibles
+- Publiques uniquement
+- Amis uniquement
+
+Profil utilisateur
+
+Chaque membre dispose d'une page de profil accessible depuis l'application, affichant :
+
+- son pseudonyme et sa photo de profil ;
+- sa courte biographie ;
+- sa date d'inscription ;
+- ses publications visibles (publiques toujours, privées uniquement si le visiteur est dans sa liste d'amis).
+- sa liste d’amis
+
+Depuis cette page, un membre connecté peut envoyer une demande d'amitié à cet utilisateur.
+
+### 6. Relations d'amitié
+
+Un membre connecté peut :
+
+- **envoyer une demande d'amitié** à un autre membre depuis son profil ;
+- **consulter les demandes reçues** et choisir de les accepter ou de les refuser ;
+- **consulter la liste de ses amis** et voir lesquels sont actuellement en ligne.
+
+Une relation d'amitié n'est créée qu'après acceptation de la demande. Elle est symétrique : si A est ami avec B, alors B est ami avec A.
+
+## 🔥Bonus : pour aller plus loin
+
+Vous pouvez rajouter si vous avez le temps la gestion des likes et commentaires aux publications.  Ceci est facultatif .

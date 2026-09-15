@@ -5,15 +5,19 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
-#[UniqueEntity(fields: ['username'], message: 'There is already an account with this username')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cet email.')]
+#[UniqueEntity(fields: ['username'], message: 'Ce pseudo est déjà utilisé.')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -22,6 +26,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180)]
+    #[Assert\Length(min: 3, max: 100,
+        minMessage: "Votre pseudo doit contenir au moins {{ limit }} characters",
+        maxMessage: "Votre pseudo doit contenir au maximum {{ limit }} characters",
+    )]
+    #[Assert\Regex(
+        pattern: "/^[\p{L}\p{M}]+(?:[ '\-][\p{L}\p{M}]+)*$/u",
+        message: 'Votre pseudo ne doit pas contenir des characteres speciaux.'
+    )]
     private ?string $username = null;
 
     /**
@@ -34,6 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\PasswordStrength(minScore: Assert\PasswordStrength::STRENGTH_WEAK)]
     private ?string $password = null;
 
     /**
@@ -67,7 +80,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $friendRequestsReceived;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Email(message: "Le champ email n'est pas un email valide.")]
+    #[Assert\NotBlank(message: "Le champ email ne peut pas être vide.")]
     private ?string $email = null;
+
+    #[ORM\Column(length: 255)]
+    #[Assert\Image(maxPixels: 160000, maxSize: '1M', extensions: ['jpg','webp','png'],
+        maxPixelsMessage: "La taille d'image est trop grande! Taille maximale: 800px x 800px (160000 pixels).",
+        extensionsMessage: "Votre format d'image n'est pas accepté! Formats acceptés: jpg, png, webp",
+        maxSizeMessage: "!La taille d'image est trop grande. Votre image: ({{ size }} {{ suffix }}). Taille maximale {{ limit }} {{ suffix }}"
+    )]
+    private ?string $image = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $bio = null;
+
+    #[ORM\Column]
+    private ?bool $online = false;
+
+    #[ORM\Column]
+    private ?\DateTime $datetime = null;
 
     public function __construct()
     {
@@ -76,6 +108,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->comments = new ArrayCollection();
         $this->friendRequests = new ArrayCollection();
         $this->friendRequestsReceived = new ArrayCollection();
+        $this->datetime = new \DateTime();
     }
 
     public function getId(): ?int
@@ -311,6 +344,72 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): static
+    {
+        $this->bio = $bio;
+
+        return $this;
+    }
+
+    public function isOnline(): ?bool
+    {
+        return $this->online;
+    }
+
+    public function setOnline(bool $online): static
+    {
+        $this->online = $online;
+
+        return $this;
+    }
+    public function getFriends(): array
+    {
+        $friends = [];
+        foreach ($this->friendRequests as $fr) {
+            if ($fr->getStatus() === FriendRequest::STATUS_ACCEPTED) { $friends[] = $fr->getReceiver(); }
+        }
+        foreach ($this->friendRequestsReceived as $fr) {
+            if ($fr->getStatus() === FriendRequest::STATUS_ACCEPTED) { $friends[] = $fr->getSender(); }
+        }
+        return $friends;
+    }
+    public function isFriendWith(User $other): bool
+    {
+        foreach ($this->getFriends() as $friend) {
+            if ($friend->getId() === $other->getId()) { return true; }
+        }
+        return false;
+    }
+
+    public function getDatetime(): ?\DateTime
+    {
+        return $this->datetime;
+    }
+
+    public function setDatetime(\DateTime $datetime): static
+    {
+        $this->datetime = $datetime;
 
         return $this;
     }

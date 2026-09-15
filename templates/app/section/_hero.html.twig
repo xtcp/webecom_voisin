@@ -1,0 +1,24 @@
+{#
+    Fragment: app/section/_hero.html.twig
+    
+    Fragment de section pour la section hero de la page d'accueil
+
+    Role:
+        Afficher la section hero
+
+#}
+<section class="hero">
+    <span class="logo-mark">
+        <svg viewBox="0 0 145 146" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="73" cy="87.5" r="29" fill="#D3815D"/>
+            <circle cx="94" cy="58.5" r="29" fill="#DDA489"/>
+            <circle cx="51" cy="58.5" r="29" fill="#C95F30"/>
+        </svg>
+    </span>
+    <h1>Voisin, le réseau qui rapproche votre quartier</h1>
+    <p>Partagez vos nouvelles, retrouvez vos voisins, créez du lien près de chez vous.</p>
+    <div class="hero-cta">
+        <a class="btn btn-primary" href="{{ path('app_register') }}">Créer un compte</a>
+        <a class="btn btn-secondary" href="{{ path('app_login') }}">Se connecter</a>
+    </div>
+</section>

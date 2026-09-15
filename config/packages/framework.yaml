@@ -4,7 +4,9 @@ framework:
 
     # Note that the session will be started ONLY if you read or write from it.
     session: true
-
+    csrf_protection:
+        check_header: true
+        cookie_name: csrf-token
     #esi: true
     #fragments: true
 

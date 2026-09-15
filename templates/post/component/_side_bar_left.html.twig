@@ -1,0 +1,31 @@
+{#
+    Fragment: post/component/_side_bar_right.html.twig
+    
+    Fragment de composent pour la barre gauche
+
+
+    Role:
+        Afficher la barre lateral gauche
+
+    Parameters:
+        pendingRequestsCount - Numéro des demandes d'amis
+#}
+<aside class="feed-sidebar-left">
+    <ul class="side-nav">
+        <li><a class="active" href="{{ path('app_feed') }}">Mon fil d'actualité</a></li>
+        <li><a href="{{ path('app_user_profile', {id: app.user.id}) }}">Mon profil</a></li>
+        <li><a href="{{ path('app_friend_list') }}">Mes amis</a></li>
+        <li>
+            <a href="{{ path('app_friend_requests') }}">
+                Mes demandes
+                {% if pendingRequestsCount is defined and pendingRequestsCount > 0 %}
+                    <span class="count-badge">{{ pendingRequestsCount }}</span>
+                {% endif %}
+            </a>
+        </li>
+    </ul>
+
+    <form action="{{ path('app_logout') }}" method="post" class="logout-form">
+        <button type="submit" class="btn btn-secondary">Me déconnecter</button>
+    </form>
+</aside>

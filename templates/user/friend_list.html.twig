@@ -1,0 +1,31 @@
+{#
+    Template: user/fiends_list.html.twig
+    Extends: base_html.twig
+
+    Template pour afficher la page de la liste d'amis d'un utilisateur
+
+    Role:
+        Afficher le page de liste d'amis d'un utilisateur
+
+    Parameters:
+        friends - La liste d'amis
+
+#}
+{% extends 'base.html.twig' %}
+{% block title %}Mes amis – Voisin{% endblock %}
+{% block body %}
+<h1>Mes amis</h1>
+<ul class="friend-chip-list">
+    {% for friend in friends %}
+        <li>
+            <a href="{{ path('app_user_profile', {id: friend.id}) }}">
+                <img class="avatar-sm" src="{{ friend.image ? asset('images/user/' ~ friend.image) : asset('images/default-avatar.png') }}" alt="">
+                {{ friend.username }}
+                {% if friend.online %}<span class="online-dot" title="En ligne"></span>{% endif %}
+            </a>
+        </li>
+    {% else %}
+        <li>Vous n'avez pas encore d'amis.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,48 @@
+{#
+    Fragment: post/component/_post_card.html.twig
+    
+    Fragment de composent pour la card d'une publication
+
+    Role:
+        Afficher une card d'une publication
+
+    Parameters:
+        post - La publication a afficher
+#}
+<article class="post-card">
+    <header>
+        <a class="post-author" href="{{ path('app_user_profile', {id: post.userId.id}) }}">
+            <img class="avatar" src="{{ post.userId.image ? asset('images/user/' ~ post.userId.image) : asset('images/default-avatar.png') }}" alt="">
+            <div class="post-meta">
+                <a href="{{ path('app_post_view', {id: post.id}) }}"><strong>{{ post.userId.username }}</strong></a>
+                <time>le {{ post.datetimeCreation|date('d/m/Y') }} à {{ post.datetimeCreation|date('H') }}h</time>
+            </div>
+        </a>
+        <span class="badge">{{ post.visibility ? 'Public' : 'Amis uniquement' }}</span>
+        {% if post.userId.id == app.user.id %}
+            <div class="header-actions">
+                <a href="{{ path('app_post_edit', {id: post.id}) }}">Modifier</a>
+                <form action="{{ path('app_post_delete', {id: post.id}) }}" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete-post-' ~ post.id) }}">
+                    <button class="link-button" type="submit" onclick="return confirm('Supprimer cette publication ?')">Supprimer</button>
+                </form>
+            </div>
+        {% endif %}
+    </header>
+
+    {% if post.image %}
+        <a href="{{ path('app_post_view', {id: post.id}) }}">
+            <img class="post-image" src="{{ asset('images/post/' ~ post.image) }}" alt="">
+        </a>
+    {% endif %}
+    {% if post.text %}<p class="post-text">{{ post.text }}</p>{% endif %}
+
+    <div class="post-actions">
+        <form action="{{ path('app_post_like', {id: post.id}) }}" method="post">
+            <button type="submit" class="link-button">
+                {{ post.isLikedByUser(app.user) ? '💙' : '🤍' }} {{ post.likedBy|length }}
+            </button>
+        </form>
+        <a class="link-button" href="{{ path('app_post_view', {id: post.id}) }}">💬 {{ post.comments|length }}</a>
+    </div>
+</article>

@@ -1,0 +1,26 @@
+{#
+    Template: post/new.html.twig
+    Extends: base_html.twig
+
+    Template pour la page de creation d'une publication
+
+    Role:
+        Afficher la page de creation d'une publication avec le formulaire et les actions
+
+    Parameters:
+        form - Le formulaire de creation d'une publication
+
+#}
+{% extends 'base.html.twig' %}
+{% block title %}Nouvelle publication – Voisin{% endblock %}
+{% block body %}
+<div class="auth-form">
+    <h1>Nouvelle publication</h1>
+    {{ form_start(postForm, {attr: {enctype: 'multipart/form-data'}}) }}
+        {{ form_row(postForm.text) }}
+        {{ form_row(postForm.imageFile) }}
+        {{ form_row(postForm.visibility) }}
+        <button class="btn btn-primary" type="submit">Publier</button>
+    {{ form_end(postForm) }}
+</div>
+{% endblock %}

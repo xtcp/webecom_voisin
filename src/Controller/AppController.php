@@ -1,18 +1,40 @@
 <?php
-
+/**
+ *   AppController.php 
+ *      Controleur de l'application
+ * 
+ *      Role:
+ *          Préparer l'affichage de la page principal
+ */
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+use App\Repository\PostRepository;
+
 final class AppController extends AbstractController
 {
-    #[Route('/app', name: 'app_app')]
-    public function index(): Response
+    /** 
+     *  Rôle :
+     *     Préparer l'affichage de la page principal
+     *
+     *  Retour :
+     *     Response - Template de la page principale avec les dernieres publications publiques
+     */
+    #[Route('/', name: 'app_index')]
+    public function index(PostRepository $postRepository): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_feed');
+        }
+
+        $latestPublicPosts = $postRepository->findForFeed([], 'public');
+        $latestPublicPosts = \array_slice($latestPublicPosts, 0, 6);
+
         return $this->render('app/index.html.twig', [
-            'controller_name' => 'AppController',
+            'latestPublicPosts' => $latestPublicPosts,
         ]);
     }
 }

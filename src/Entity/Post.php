@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
 {
@@ -20,14 +21,14 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user_id = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $text = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
     #[ORM\Column]
-    private ?bool $visibility = null;
+    private ?bool $visibility = true;
 
     #[ORM\Column]
     private ?\DateTime $datetime_creation = null;
@@ -51,6 +52,7 @@ class Post
     {
         $this->likedBy = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->datetime_creation = new \DateTime();
     }
 
     public function getId(): ?int
@@ -147,7 +149,7 @@ class Post
 
         return $this;
     }
-
+    public function isLikedByUser(User $u): bool { return $this->likedBy->contains($u); }
     public function removeLikedBy(User $likedBy): static
     {
         if ($this->likedBy->removeElement($likedBy)) {

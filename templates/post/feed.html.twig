@@ -1,0 +1,50 @@
+{#
+    Template: post/feed.html.twig
+    Extends: base_html.twig
+
+    Template pour la page du fil d'actualité
+
+    Role:
+        Afficher la page du fil d'actualité
+
+    Parameters:
+        posts - Les derniers post visibles
+        filter - Le filtre actif
+        postForm - Le formulaire de creation d'une publication
+        pendingRequestsCount - Le numéro des demandes d'amitié de l'utilisateur connectée
+        onlineFriends - Les amis en ligne de l'utilisateur connectée
+#}
+{% extends 'base.html.twig' %}
+{% block title %}Fil d'actualité – Voisin{% endblock %}
+{% block body %}
+<section class="feed">
+    {% include 'post/component/_side_bar_left.html.twig' %}
+    
+    <div class="feed-main">
+        <div class="new-post">
+            {{ form_start(postForm, {action: path('app_post_new'), attr: {enctype: 'multipart/form-data'}}) }}
+                {{ form_row(postForm.text, {label: false}) }}
+                <div class="form-actions">
+                    {{ form_widget(postForm.imageFile) }}
+                    {{ form_widget(postForm.visibility) }}
+                    <button class="btn btn-primary" type="submit">Publier</button>
+                </div>
+            {{ form_end(postForm) }}
+        </div>
+
+        <div class="feed-filter">
+            <a class="{{ filter == 'all' ? 'active' }}" href="{{ path('app_feed', {filtre: 'all'}) }}">Toutes</a>
+            <a class="{{ filter == 'public' ? 'active' }}" href="{{ path('app_feed', {filtre: 'public'}) }}">Publiques</a>
+            <a class="{{ filter == 'friends' ? 'active' }}" href="{{ path('app_feed', {filtre: 'friends'}) }}">Amis uniquement</a>
+        </div>
+
+        {% for post in posts %}
+            {% include 'post/component/_post_card.html.twig' %}
+        {% else %}
+            <p>Aucune publication à afficher pour ce filtre.</p>
+        {% endfor %}
+    </div>
+
+    {% include 'post/component/_side_bar_right.html.twig' %}
+</section>
+{% endblock %}

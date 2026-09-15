@@ -8,13 +8,17 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: FriendRequestRepository::class)]
 class FriendRequest
 {
+    public const STATUS_PENDING = 0;
+    public const STATUS_ACCEPTED = 1;
+    public const STATUS_REFUSED = 2;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?int $status = null;
+    private ?int $status = self::STATUS_PENDING;
 
     #[ORM\Column]
     private ?\DateTime $datetime = null;
@@ -27,6 +31,10 @@ class FriendRequest
     #[ORM\JoinColumn(nullable: false)]
     private ?User $receiver = null;
 
+    public function __construct()
+    {
+        $this->datetime = new \DateTime();
+    }
     public function getId(): ?int
     {
         return $this->id;

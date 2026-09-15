@@ -1,0 +1,26 @@
+{#
+    Fragment: post/component/_side_bar_right.html.twig
+    
+    Fragment de composent pour la barre lateral droite
+
+    Role:
+        Afficher la barre lateral droite
+
+    Parameters:
+        onlineFriends - Les amis en ligne de l'utilisateur connectée
+#}
+<aside class="feed-sidebar-right">
+    <h3>Mes amis en ligne ({{ onlineFriends|default([])|length }})</h3>
+    <ul class="online-friend-list">
+        {% for friend in onlineFriends|default([]) %}
+            <li>
+                <a href="{{ path('app_user_profile', {id: friend.id}) }}">
+                    <img class="avatar-sm" src="{{ friend.image ? asset('images/user/' ~ friend.image) : asset('images/default-avatar.png') }}" alt="">
+                    {{ friend.username }}
+                </a>
+            </li>
+        {% else %}
+            <li class="muted">Aucun ami en ligne actuellement.</li>
+        {% endfor %}
+    </ul>
+</aside>

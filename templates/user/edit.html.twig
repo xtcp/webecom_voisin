@@ -1,0 +1,29 @@
+{#
+    Template: user/edit.html.twig
+    Extends: base_html.twig
+
+    Template pour afficher la page de modification d'utilisateur
+
+    Role:
+        Afficher le formulaire de modification d'utilisateur
+
+    Parameters:
+        user - L'utilisateur a modifier
+        form - Le formulaire d'edition d'utilisateur
+
+#}
+{% extends 'base.html.twig' %}
+{% block title %}Modifier mon profil – Voisin{% endblock %}
+{% block body %}
+<div class="auth-form">
+    <h1>Modifier mon profil</h1>
+    {{ form_start(form, {attr: {enctype: 'multipart/form-data', 'data-turbo': 'false'}}) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.bio) }}
+        {{ form_row(form.image, {required: false, attr: {required: false}}) }}
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <button class="btn btn-primary" type="submit">Enregistrer</button>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

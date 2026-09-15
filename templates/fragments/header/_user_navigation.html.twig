@@ -1,0 +1,30 @@
+{#
+    Fragment: fragment/header/_user_navigation.html.twig
+    
+    Fragment de composent pour la navigation du header
+
+    Role:
+        Afficher la navigation du header de la page
+
+    Parameters:
+
+#}
+{% if app.user %}
+    <form class="navbar-search" role="search">
+        <input type="search" placeholder="Rechercher">
+        <button type="submit" aria-label="Rechercher">🔍</button>
+    </form>
+    <div class="navbar-right">
+        <button class="nav-icon-link" aria-label="Notifications">🔔</button>
+        <a href="{{ path('app_user_profile', {id: app.user.id}) }}">
+            <img class="avatar-sm" src="{{ app.user.image ? asset('images/user/' ~ app.user.image) : asset('images/default-avatar.png') }}" alt="">
+        </a>
+        <a class="nav-text-link" href="{{ path('app_logout') }}">Se deconnecter</a>
+    </div>
+    
+{% else %}
+    <nav>
+        <a class="nav-text-link" href="{{ path('app_login') }}">Se connecter</a>
+        <a class="btn btn-primary" href="{{ path('app_register') }}">Créer un compte</a>
+    </nav>
+{% endif %}

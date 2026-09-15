@@ -1,0 +1,44 @@
+{#
+    Template: post/edit.html.twig
+    Extends: base_html.twig
+
+    Template pour la page de modifiation d'une publication
+
+    Role:
+        Afficher la page de modification d'une publication avec le formulaire et les actions
+
+    Parameters:
+        form - Le formulaire de modification d'une publication
+
+#}
+{% extends 'base.html.twig' %}
+{% block title %}Modifier la publication – Voisin{% endblock %}
+{% block body %}
+<div class="post-view">
+    <article class="post-card">
+        <header>
+            <a class="post-author" href="{{ path('app_user_profile', {id: app.user.id}) }}">
+                <img class="avatar" src="{{ app.user.image ? asset('images/user/' ~ app.user.image) : asset('images/default-avatar.png') }}" alt="">
+                <div class="post-meta">
+                    <strong>{{ app.user.username }}</strong>
+                    <time>Modification de la publication</time>
+                </div>
+            </a>
+        </header>
+
+        {{ form_start(postForm, {attr: {enctype: 'multipart/form-data', class: 'post-edit-form', 'data-turbo': 'false'}}) }}
+            {{ form_row(postForm.text, {label: false}) }}
+
+            {% if post.image %}
+                <img class="post-image" src="{{ asset('images/post/' ~ post.image) }}" alt="">
+            {% endif %}
+
+            <div class="form-actions">
+                {{ form_widget(postForm.imageFile) }}
+                {{ form_widget(postForm.visibility) }}
+                <button class="btn btn-primary" type="submit">Enregistrer</button>
+            </div>
+        {{ form_end(postForm) }}
+    </article>
+</div>
+{% endblock %}

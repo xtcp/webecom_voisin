@@ -1,0 +1,15 @@
+{#
+    Fragment: component/_header.html.twig
+    
+    Fragment de composent pour le header
+
+    Role:
+        Afficher le header de la page avec le logo et la navigation de connection
+
+    Parameters:
+
+#}
+<header class="navbar">
+    {% include 'fragments/header/_logo.html.twig' %}
+    {% include 'fragments/header/_user_navigation.html.twig' %}
+</header>

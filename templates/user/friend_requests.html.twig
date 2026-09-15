@@ -1,0 +1,41 @@
+{#
+    Template: user/friend_requests.html.twig
+    Extends: base_html.twig
+
+    Template pour afficher la page de la liste de demandes d'amis d'un utilisateur
+
+    Role:
+        Afficher le page de liste de demandes d'amis d'un utilisateur
+
+    Parameters:
+        requests - La liste de demandes d'amis
+
+#}
+{% extends 'base.html.twig' %}
+{% block title %}Demandes d'amitié – Voisin{% endblock %}
+{% block body %}
+<h1>Ils vous ont envoyé une demande d'ami</h1>
+<ul class="friend-request-list">
+    {% for fr in requests %}
+        <li>
+            <a class="fr-user" href="{{ path('app_user_profile', {id: fr.sender.id}) }}">
+                <img class="avatar" src="{{ fr.sender.image ? asset('images/user/' ~ fr.sender.image) : asset('images/default-avatar.png') }}" alt="">
+                <span>
+                    <strong>{{ fr.sender.username }}</strong>
+                    <span class="fr-date">Envoyée le {{ fr.datetime|date('d F Y \\à H\\hi') }}</span>
+                </span>
+            </a>
+            <form action="{{ path('app_friend_request_refuse', {id: fr.id}) }}" method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token('friend-response-' ~ fr.id) }}">
+                <button class="btn btn-secondary" type="submit">Refuser</button>
+            </form>
+            <form action="{{ path('app_friend_request_accept', {id: fr.id}) }}" method="post">
+                <input type="hidden" name="_token" value="{{ csrf_token('friend-response-' ~ fr.id) }}">
+                <button class="btn btn-primary" type="submit">Accepter</button>
+            </form>
+        </li>
+    {% else %}
+        <li>Aucune demande en attente.</li>
+    {% endfor %}
+</ul>
+{% endblock %}
