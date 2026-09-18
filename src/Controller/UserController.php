@@ -87,9 +87,7 @@ final class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($form->getErrors(true) as $error) {
-                dump($error->getMessage(), $error->getOrigin()?->getName());
-            }
+
             /** @var \Symfony\Component\HttpFoundation\File\UploadedFile|null $image */
             $image = $form->get('image')->getData();
             
