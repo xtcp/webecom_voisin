@@ -77,8 +77,9 @@ final class UserController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function edit(User $user, Request $request, EntityManagerInterface $em, #[Autowire(service: 'user_image_uploader')] ImageUploader $imageUploader): Response
     {
-        /** @var User $user */
-        if ($user->getId() !== $this->getUser()?->getId()) {
+        /** @var User|null $currentUser */
+        $currentUser = $this->getUser();
+        if ($currentUser === null || $user->getId() !== $currentUser->getId()) {
             throw $this->createAccessDeniedException();
         }
 
@@ -208,6 +209,7 @@ final class UserController extends AbstractController
     public function refuseFriendRequest(FriendRequest $friendRequest, Request $request, EntityManagerInterface $em): Response
     {
         /** @var User $user */
+        $user = $this->getUser();
         if ($friendRequest->getReceiver()->getId() !== $user->getId()) {
             throw $this->createAccessDeniedException();
         }

@@ -29,14 +29,13 @@
             </div>
         {% endif %}
     </header>
+    {% if post.text %}<p class="post-text">{{ post.text }}</p>{% endif %}
 
     {% if post.image %}
         <a href="{{ path('app_post_view', {id: post.id}) }}">
             <img class="post-image" src="{{ asset('images/post/' ~ post.image) }}" alt="">
         </a>
     {% endif %}
-    {% if post.text %}<p class="post-text">{{ post.text }}</p>{% endif %}
-
     <div class="post-actions">
         <form action="{{ path('app_post_like', {id: post.id}) }}" method="post">
             <button type="submit" class="link-button">
