@@ -31,7 +31,6 @@ final class AppController extends AbstractController
         }
 
         $latestPublicPosts = $postRepository->findForFeed([], 'public');
-        $latestPublicPosts = \array_slice($latestPublicPosts, 0, 6);
 
         return $this->render('app/index.html.twig', [
             'latestPublicPosts' => $latestPublicPosts,

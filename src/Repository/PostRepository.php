@@ -25,7 +25,8 @@ class PostRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('p')
             ->leftJoin('p.user_id', 'u')->addSelect('u')
-            ->orderBy('p.datetime_creation', \SortDirection::Descending);
+            ->orderBy('p.datetime_creation', \SortDirection::Descending)
+            ->setMaxResults('6');
 
         $friendAndSelfIds = $currentUserId ? [...$friendIds, $currentUserId] : $friendIds;
 

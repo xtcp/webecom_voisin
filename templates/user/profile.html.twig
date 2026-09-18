@@ -26,10 +26,18 @@
         {% elseif isFriend %}
             <span class="badge">Ami(e)</span>
         {% else %}
+            
+            {% if isFriend %}
+            <button class="btn btn-disabled" type="submit" disabled>Ami(e)</button>
+            {% elseif isPending  %}
+            <button class="btn btn-disabled" type="submit" disabled>Demande en attente</button>
+            {% else %}
             <form action="{{ path('app_friend_request_send', {id: user.id}) }}" method="post">
-                <input type="hidden" name="_token" value="{{ csrf_token('friend-request-' ~ user.id) }}">
-                <button class="btn btn-primary" type="submit">Ajouter en ami</button>
-            </form>
+            <input type="hidden" name="_token" value="{{ csrf_token('friend-request-' ~ user.id) }}">
+            <button class="btn btn-primary" type="submit">Ajouter en ami</button>
+            </form> 
+            {% endif %}
+            
         {% endif %}
     </div>
 </section>

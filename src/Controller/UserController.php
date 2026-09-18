@@ -40,7 +40,7 @@ final class UserController extends AbstractController
      */
     #[Route('/profil/{id}', name: 'app_user_profile', requirements: ['id' => '\d+'])]
     #[IsGranted('ROLE_USER')]
-    public function profile(int $id, PostRepository $postRepository, UserRepository $userRepository): Response
+    public function profile(int $id, PostRepository $postRepository, UserRepository $userRepository, FriendRequestRepository $friendRequestRepository): Response
     {
         $user = $userRepository->find($id);
 
@@ -52,7 +52,11 @@ final class UserController extends AbstractController
         $viewer = $this->getUser();
         $isOwner = $viewer->getId() === $user->getId();
         $isFriend = $viewer->isFriendWith($user);
-
+        $isPending = false;
+        if (!$isOwner && !$isFriend) {
+            $existingRequest = $friendRequestRepository->findBetween($viewer, $user);
+            $isPending = $existingRequest !== null && $existingRequest->getStatus() === FriendRequest::STATUS_PENDING;
+        }
         $posts = $postRepository->findVisibleForProfile($user, $isFriend, $isOwner);
 
         return $this->render('user/profile.html.twig', [
@@ -60,6 +64,7 @@ final class UserController extends AbstractController
             'posts' => $posts,
             'isOwner' => $isOwner,
             'isFriend' => $isFriend,
+            'isPending' => $isPending
         ]);
     }
     /** 
@@ -139,6 +144,9 @@ final class UserController extends AbstractController
             $em->persist($fr);
             $em->flush();
             $this->addFlash('success', "Demande d'amitié envoyée.");
+        } else {
+            $this->addFlash('error', 'Vous avez déjà demandé cette personne en ami.');
+            return $this->redirectToRoute('app_user_profile', ['id' => $receiver->getId()]);
         }
 
         return $this->redirectToRoute('app_user_profile', ['id' => $receiver->getId()]);
